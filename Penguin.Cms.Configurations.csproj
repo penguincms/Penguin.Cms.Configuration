@@ -1,43 +1,45 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>http://www.penguinms.com/Nuget</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Configurations</PackageProjectUrl>
     <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
     <Description>A service used for simplifying access to Penguin configurations as well as an IRepository wrapping class to centralize database and application configurations</Description>
     <Version>1.2.2</Version>
+	<IncludeSymbols>true</IncludeSymbols>    
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="1.0.5" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="1.0.6" />
     <PackageReference Include="Penguin.Configuration" Version="1.1.2" />
     <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="1.0.5" />
     <PackageReference Include="Penguin.Messaging.Abstractions" Version="2.0.6" />
     <PackageReference Include="Penguin.Messaging.Persistence" Version="2.0.6" />
-    <PackageReference Include="Penguin.Persistence.Abstractions" Version="1.2.8" />
+    <PackageReference Include="Penguin.Persistence.Abstractions" Version="1.3.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
 
  <ItemGroup>
-    <None Include="..\License.txt">
+    <None Include="License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Cms.Configuration\Penguin.Cms.Configurations.xml</DocumentationFile>
+    <DocumentationFile>Penguin.Authentication.OWA.xml</DocumentationFile>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Cms.Configuration\Penguin.Cms.Configurations.xml</DocumentationFile>
+    <DocumentationFile>Penguin.Authentication.OWA.xml</DocumentationFile>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>

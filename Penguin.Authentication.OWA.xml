@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Penguin.Cms.Configurations</name>
+    </assembly>
+    <members>
+        <member name="T:Penguin.Cms.Configurations.Configuration">
+            <summary>
+            A key value pair representing a database persistable configuration
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.Configuration.Name">
+            <summary>
+            The Key for the configuration
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.Configuration.Value">
+            <summary>
+            The value of the configuration
+            </summary>
+        </member>
+        <member name="T:Penguin.Cms.Configurations.ConfigurationService">
+            <summary>
+            A CMS configuration service that wraps a list of configuration providers and provides accessibility methods
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.ConfigurationService.AllConfigurations">
+            <summary>
+            A dictionary of all configurations with value determined by precedence
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.ConfigurationService.AllConnectionStrings">
+            <summary>
+            A dictionary of all connection strings with value determined by precendence
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.ConfigurationService.ConfigurationRepository">
+            <summary>
+            If any configuration repositories are passed in when creating this object, this returns the active repository
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.ConfigurationService.Debug">
+            <summary>
+            Simply checks all configurations for a "Debug" bool
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.ConfigurationService.Providers">
+            <summary>
+            A list of child providers used when constucting this instance
+            </summary>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.#ctor(Penguin.Configuration.Abstractions.IProvideConfigurations[])">
+            <summary>
+            Ordered by most important first. Constructs a new instance of this service
+            </summary>
+            <param name="providers">And ordered list of configuration providers</param>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configurations.Configuration},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Creates a new instance of this service using the provided repository and IConfiguration
+            </summary>
+            <param name="configurationRepository">A repository implementation for accessing database configurations</param>
+            <param name="configuration">An IConfiguration object used by .Net Core applications</param>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.FlushCache">
+            <summary>
+            Flushes all values cached (static) by the configuration service
+            </summary>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.FindConnectionString(System.String)">
+            <summary>
+            Recursively searches for a connection string by name. Allows for linking connection strings to eachother by name
+            </summary>
+            <param name="toTest">The name (or connection string) to return</param>
+            <returns>The furthest resolvable value representing the connection string</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.GetAll">
+            <summary>
+            Returns all values from all configurations as CMS configuration objects
+            </summary>
+            <returns>All values from all configurations as CMS configuration objects</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.GetBool(System.String)">
+            <summary>
+            Gets a configuration value as a bool
+            </summary>
+            <param name="Name">the name of the configuration value to get</param>
+            <returns>The configuration value, or false if null</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.GetCmsConfiguration(System.String)">
+            <summary>
+            Returns a value from ONLY the IRepository if this object was constructed using one
+            </summary>
+            <param name="Name">The name of the configuration to get</param>
+            <returns>The value (or null) of the configuration</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.GetConfiguration(System.String)">
+            <summary>
+            Gets a configuration value by name
+            </summary>
+            <param name="Key">The key of the value to get</param>
+            <returns>The value (or null) of the requested configuration</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.GetConnectionString(System.String)">
+            <summary>
+            Gets a connection string by name
+            </summary>
+            <param name="Name">The name of the connection string</param>
+            <returns>The value (or null) of the connection string</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.GetInt(System.String)">
+            <summary>
+            Gets a configuration as an int
+            </summary>
+            <param name="Name">The name of the configuration to get</param>
+            <returns>the int representation (or 0 if null)</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.Set(System.String,System.String)">
+            <summary>
+            Attempts to set the value of a configuration in a configuration repository (if provided)
+            </summary>
+            <param name="key">The key of the value to set</param>
+            <param name="value">The new value of the configuration</param>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.TryGet(System.String,System.String@)">
+            <summary>
+            Attempts to get a configuration value without fail
+            </summary>
+            <param name="key">The key of the value to get</param>
+            <param name="value">a ref to the value to set</param>
+            <returns>A bool indicating whether or not an error occurred</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.Update(Penguin.Messaging.Persistence.Messages.Updating{Penguin.Cms.Configurations.Configuration})">
+            <summary>
+            Message Handler that removes a configuration from the cache when the value is updated
+            </summary>
+            <param name="target">A message containing the configuration to be removed</param>
+        </member>
+        <member name="T:Penguin.Cms.Configurations.RepositoryProvider">
+            <summary>
+            A configuation provider that wraps a repository for cms configurations
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.RepositoryProvider.AllConfigurations">
+            <summary>
+            All configurations found in the repository
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.RepositoryProvider.AllConnectionStrings">
+            <summary>
+            Not used
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Configurations.RepositoryProvider.Repository">
+            <summary>
+            The Repository used when constructing this instance
+            </summary>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.RepositoryProvider.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configurations.Configuration})">
+            <summary>
+            Creates a new instance of this configuration provider
+            </summary>
+            <param name="provider">The repository implementation to wrap</param>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.RepositoryProvider.GetConfiguration(System.String)">
+            <summary>
+            Gets a configuration by Key
+            </summary>
+            <param name="Key">The Key of the configuration to get</param>
+            <returns>The value (or null) of the configuration</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configurations.RepositoryProvider.GetConnectionString(System.String)">
+            <summary>
+            Unused
+            </summary>
+            <param name="Name">Unused</param>
+            <returns>Null</returns>
+        </member>
+    </members>
+</doc>
