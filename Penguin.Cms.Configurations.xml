@@ -4,17 +4,17 @@
         <name>Penguin.Cms.Configurations</name>
     </assembly>
     <members>
-        <member name="T:Penguin.Cms.Configurations.Configuration">
+        <member name="T:Penguin.Cms.Configurations.CmsConfiguration">
             <summary>
             A key value pair representing a database persistable configuration
             </summary>
         </member>
-        <member name="P:Penguin.Cms.Configurations.Configuration.Name">
+        <member name="P:Penguin.Cms.Configurations.CmsConfiguration.Name">
             <summary>
             The Key for the configuration
             </summary>
         </member>
-        <member name="P:Penguin.Cms.Configurations.Configuration.Value">
+        <member name="P:Penguin.Cms.Configurations.CmsConfiguration.Value">
             <summary>
             The value of the configuration
             </summary>
@@ -55,7 +55,7 @@
             </summary>
             <param name="providers">And ordered list of configuration providers</param>
         </member>
-        <member name="M:Penguin.Cms.Configurations.ConfigurationService.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configurations.Configuration},Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configurations.CmsConfiguration},Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             Creates a new instance of this service using the provided repository and IConfiguration
             </summary>
@@ -130,7 +130,7 @@
             <param name="value">a ref to the value to set</param>
             <returns>A bool indicating whether or not an error occurred</returns>
         </member>
-        <member name="M:Penguin.Cms.Configurations.ConfigurationService.Update(Penguin.Messaging.Persistence.Messages.Updating{Penguin.Cms.Configurations.Configuration})">
+        <member name="M:Penguin.Cms.Configurations.ConfigurationService.Update(Penguin.Messaging.Persistence.Messages.Updating{Penguin.Cms.Configurations.CmsConfiguration})">
             <summary>
             Message Handler that removes a configuration from the cache when the value is updated
             </summary>
@@ -156,7 +156,7 @@
             The Repository used when constructing this instance
             </summary>
         </member>
-        <member name="M:Penguin.Cms.Configurations.RepositoryProvider.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configurations.Configuration})">
+        <member name="M:Penguin.Cms.Configurations.RepositoryProvider.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configurations.CmsConfiguration})">
             <summary>
             Creates a new instance of this configuration provider
             </summary>

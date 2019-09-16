@@ -11,8 +11,6 @@ namespace Penguin.Cms.Configurations
     /// </summary>
     public class RepositoryProvider : IProvideConfigurations
     {
-        #region Properties
-
         /// <summary>
         /// All configurations found in the repository
         /// </summary>
@@ -26,17 +24,13 @@ namespace Penguin.Cms.Configurations
         /// <summary>
         /// The Repository used when constructing this instance
         /// </summary>
-        public IRepository<Configuration> Repository { get; protected set; }
-
-        #endregion Properties
-
-        #region Constructors
+        public IRepository<CmsConfiguration> Repository { get; protected set; }
 
         /// <summary>
         /// Creates a new instance of this configuration provider
         /// </summary>
         /// <param name="provider">The repository implementation to wrap</param>
-        public RepositoryProvider(IRepository<Configuration> provider)
+        public RepositoryProvider(IRepository<CmsConfiguration> provider)
         {
             if (provider is null)
             {
@@ -45,10 +39,6 @@ namespace Penguin.Cms.Configurations
 
             Repository = provider;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Gets a configuration by Key
@@ -69,7 +59,5 @@ namespace Penguin.Cms.Configurations
         {
             return null;
         }
-
-        #endregion Methods
     }
 }

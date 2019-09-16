@@ -5,10 +5,8 @@ namespace Penguin.Cms.Configurations
     /// <summary>
     /// A key value pair representing a database persistable configuration
     /// </summary>
-    public class Configuration : UserAuditableEntity
+    public class CmsConfiguration : UserAuditableEntity
     {
-        #region Properties
-
         /// <summary>
         /// The Key for the configuration
         /// </summary>
@@ -18,7 +16,5 @@ namespace Penguin.Cms.Configurations
         /// The value of the configuration
         /// </summary>
         public string Value { get; set; }
-
-        #endregion Properties
     }
 }

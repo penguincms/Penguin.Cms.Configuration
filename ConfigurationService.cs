@@ -8,6 +8,8 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 
 namespace Penguin.Cms.Configurations
@@ -17,8 +19,6 @@ namespace Penguin.Cms.Configurations
     /// </summary>
     public partial class ConfigurationService : ISelfRegistering, IMessageHandler, IProvideConfigurations
     {
-        #region Properties
-
         /// <summary>
         /// A dictionary of all configurations with value determined by precedence
         /// </summary>
@@ -70,7 +70,7 @@ namespace Penguin.Cms.Configurations
         /// <summary>
         /// If any configuration repositories are passed in when creating this object, this returns the active repository
         /// </summary>
-        public IRepository<Configuration> ConfigurationRepository => (Providers.SingleOrDefault(p => p is RepositoryProvider) as RepositoryProvider)?.Repository;
+        public IRepository<CmsConfiguration> ConfigurationRepository => (Providers.SingleOrDefault(p => p is RepositoryProvider) as RepositoryProvider)?.Repository;
 
         /// <summary>
         /// Simply checks all configurations for a "Debug" bool
@@ -80,11 +80,7 @@ namespace Penguin.Cms.Configurations
         /// <summary>
         /// A list of child providers used when constucting this instance
         /// </summary>
-        public IProvideConfigurations[] Providers { get; protected set; }
-
-        #endregion Properties
-
-        #region Constructors
+        public IEnumerable<IProvideConfigurations> Providers { get; protected set; }
 
         static ConfigurationService()
         {
@@ -105,13 +101,9 @@ namespace Penguin.Cms.Configurations
         /// </summary>
         /// <param name="configurationRepository">A repository implementation for accessing database configurations</param>
         /// <param name="configuration">An IConfiguration object used by .Net Core applications</param>
-        public ConfigurationService(IRepository<Configuration> configurationRepository, Microsoft.Extensions.Configuration.IConfiguration configuration) : this(new RepositoryProvider(configurationRepository), new JsonProvider(configuration))
+        public ConfigurationService(IRepository<CmsConfiguration> configurationRepository, Microsoft.Extensions.Configuration.IConfiguration configuration) : this(new RepositoryProvider(configurationRepository), new JsonProvider(configuration))
         {
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// Flushes all values cached (static) by the configuration service
@@ -140,10 +132,9 @@ namespace Penguin.Cms.Configurations
                 ConnectionString = toTest;
             }
 
-            if (ConnectionString.StartsWith("name="))
+            if (ConnectionString.StartsWith("name=", StringComparison.OrdinalIgnoreCase))
             {
                 ConnectionString = ConnectionString.Replace("name=", "");
-                //string Provider = ConfigurationManager.ConnectionStrings[ConnectionString].ProviderName;
                 ConnectionString = ConfigurationManager.ConnectionStrings[ConnectionString].ConnectionString;
             }
 
@@ -154,9 +145,9 @@ namespace Penguin.Cms.Configurations
         /// Returns all values from all configurations as CMS configuration objects
         /// </summary>
         /// <returns>All values from all configurations as CMS configuration objects</returns>
-        public List<Configuration> GetAll()
+        public List<CmsConfiguration> GetAll()
         {
-            List<Configuration> All = new List<Configuration>();
+            List<CmsConfiguration> All = new List<CmsConfiguration>();
 
             foreach (IProvideConfigurations provider in Providers)
             {
@@ -170,7 +161,7 @@ namespace Penguin.Cms.Configurations
                     {
                         if (!All.Any(c => c.Name == kvp.Key))
                         {
-                            All.Add(new Configuration()
+                            All.Add(new CmsConfiguration()
                             {
                                 Name = kvp.Key,
                                 Value = kvp.Value
@@ -199,9 +190,9 @@ namespace Penguin.Cms.Configurations
         /// </summary>
         /// <param name="Name">The name of the configuration to get</param>
         /// <returns>The value (or null) of the configuration</returns>
-        public Configuration GetCmsConfiguration(string Name)
+        public CmsConfiguration GetCmsConfiguration(string Name)
         {
-            Configuration toReturn = GetFromRepository(Name);
+            CmsConfiguration toReturn = GetFromRepository(Name);
 
             if (toReturn is null)
             {
@@ -209,7 +200,7 @@ namespace Penguin.Cms.Configurations
 
                 if (!string.IsNullOrWhiteSpace(Value))
                 {
-                    toReturn = new Configuration()
+                    toReturn = new CmsConfiguration()
                     {
                         Name = Name,
                         Value = Value
@@ -272,7 +263,7 @@ namespace Penguin.Cms.Configurations
         public int GetInt(string Name)
         {
             string toReturn = GetConfiguration(Name);
-            return toReturn == null ? 0 : int.Parse(toReturn);
+            return toReturn == null ? 0 : int.Parse(toReturn, NumberStyles.Integer, CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -309,50 +300,24 @@ namespace Penguin.Cms.Configurations
         /// Message Handler that removes a configuration from the cache when the value is updated
         /// </summary>
         /// <param name="target">A message containing the configuration to be removed</param>
-        public void Update(Updating<Configuration> target)
+        public void Update(Updating<CmsConfiguration> target)
         {
-            if (CachedValues.ContainsKey(target.Target.Name))
-            {
-                CachedValues.TryRemove(target.Target.Name, out object _);
-            }
-        }
+            Contract.Requires(target != null);
 
-        #endregion Methods
+            CachedValues.TryRemove(target.Target.Name, out object _);
+            
+        }
 
         private static ConcurrentDictionary<string, object> CachedValues { get; set; } = new ConcurrentDictionary<string, object>();
 
-        private static object GetFromCache(string Name)
-        {
-            if (CachedValues.ContainsKey(Name))
-            {
-                return CachedValues[Name];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private object GetFromConfig(string Name)
-        {
-            string Value = AllConfigurations.ContainsKey(Name) ? AllConfigurations[Name] : null;
-
-            if (Value != null)
-            {
-                CachedValues.TryAdd(Name, Value);
-            }
-
-            return Value;
-        }
-
-        private Configuration GetFromRepository(string Name)
+        private CmsConfiguration GetFromRepository(string Name)
         {
             if (ConfigurationRepository is null)
             {
                 return null;
             }
 
-            Configuration Value = ConfigurationRepository.FirstOrDefault(c => c.Name == Name);
+            CmsConfiguration Value = ConfigurationRepository.FirstOrDefault(c => c.Name == Name);
 
             if (Value != null)
             {
@@ -367,26 +332,6 @@ namespace Penguin.Cms.Configurations
             }
 
             return Value;
-        }
-
-        private object GetObject(string Name, object v = null)
-        {
-            object value = GetFromCache(Name) ?? GetFromRepository(Name)?.Value ?? GetFromConfig(Name);
-
-            if (value is null && v != null)
-            {
-                using (ConfigurationRepository.WriteContext())
-                {
-                    ConfigurationRepository.Add(new Configuration()
-                    {
-                        Name = Name,
-                        Value = v.ToString()
-                    });
-                }
-                value = v;
-            }
-
-            return value;
         }
     }
 }
