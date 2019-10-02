@@ -1,6 +1,7 @@
 ﻿using Penguin.Configuration;
 using Penguin.Configuration.Abstractions;
 using Penguin.DependencyInjection.Abstractions;
+using Penguin.DependencyInjection.Abstractions.Interfaces;
 using Penguin.Messaging.Abstractions.Interfaces;
 using Penguin.Messaging.Persistence.Messages;
 using Penguin.Persistence.Abstractions.Interfaces;
@@ -17,7 +18,7 @@ namespace Penguin.Cms.Configurations
     /// <summary>
     /// A CMS configuration service that wraps a list of configuration providers and provides accessibility methods
     /// </summary>
-    public partial class ConfigurationService : ISelfRegistering, IMessageHandler, IProvideConfigurations
+    public partial class ConfigurationService : ISelfRegistering, IMessageHandler<Updating<CmsConfiguration>>, IProvideConfigurations
     {
         /// <summary>
         /// A dictionary of all configurations with value determined by precedence
@@ -300,7 +301,7 @@ namespace Penguin.Cms.Configurations
         /// Message Handler that removes a configuration from the cache when the value is updated
         /// </summary>
         /// <param name="target">A message containing the configuration to be removed</param>
-        public void Update(Updating<CmsConfiguration> target)
+        public void AcceptMessage(Updating<CmsConfiguration> target)
         {
             Contract.Requires(target != null);
 

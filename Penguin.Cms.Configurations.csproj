@@ -1,50 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	<Import Project="Penguin.Projects.Shared\Penguin.Projects.Shared.csproj" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Configurations</PackageProjectUrl>
-    <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
     <Description>A service used for simplifying access to Penguin configurations as well as an IRepository wrapping class to centralize database and application configurations</Description>
-    <Version>2.0.0</Version>
-	<IncludeSymbols>true</IncludeSymbols>    
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Version>2.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="2.0.1" />
     <PackageReference Include="Penguin.Configuration" Version="2.0.0" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Penguin.Messaging.Abstractions" Version="2.0.6" />
-    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.0.6" />
-    <PackageReference Include="Penguin.Persistence.Abstractions" Version="2.0.1" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.0.2" />
+    <PackageReference Include="Penguin.Messaging.Abstractions" Version="2.1.2" />
+    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.4" />
+    <PackageReference Include="Penguin.Persistence.Abstractions" Version="2.1.5" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
   </ItemGroup>
-
- <ItemGroup>
-    <None Include="License.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
-    <DocumentationFile>Penguin.Cms.Configurations.xml</DocumentationFile>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DocumentationFile>Penguin.Cms.Configurations.xml</DocumentationFile>
-    <Optimize>false</Optimize>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
 </Project>
