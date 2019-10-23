@@ -1,14 +1,17 @@
-﻿using Penguin.Configuration.Abstractions;
+﻿using Penguin.Cms.Configuration.Extensions;
+using Penguin.Configuration.Abstractions.Interfaces;
+using Penguin.DependencyInjection.Abstractions.Attributes;
 using Penguin.Persistence.Abstractions.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Penguin.Cms.Configurations
+namespace Penguin.Cms.Configuration.Repositories.Providers
 {
     /// <summary>
     /// A configuation provider that wraps a repository for cms configurations
     /// </summary>
+    [Register(DependencyInjection.Abstractions.Enums.ServiceLifetime.Scoped, typeof(IProvideConfigurations))]
     public class RepositoryProvider : IProvideConfigurations
     {
         /// <summary>
@@ -20,6 +23,8 @@ namespace Penguin.Cms.Configurations
         /// Not used
         /// </summary>
         public Dictionary<string, string> AllConnectionStrings => new Dictionary<string, string>();
+
+        public bool CanWrite => true;
 
         /// <summary>
         /// The Repository used when constructing this instance
@@ -59,5 +64,7 @@ namespace Penguin.Cms.Configurations
         {
             return null;
         }
+
+        public bool SetConfiguration(string Name, string Value) => Repository.SetValue(Name, Value);
     }
 }
