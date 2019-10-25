@@ -2,7 +2,7 @@
 	<Import Project="Penguin.Projects.Shared\Penguin.Projects.Shared.csproj" />
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Configurations</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Configuration</PackageProjectUrl>
     <Description>A service used for simplifying access to Penguin configurations as well as an IRepository wrapping class to centralize database and application configurations</Description>
     <Version>2.0.3</Version>
   </PropertyGroup>
