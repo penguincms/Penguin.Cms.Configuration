@@ -1,7 +1,0 @@
-Penguin.Cms.Entities
-Penguin.Configuration
-Penguin.Configuration.Abstractions
-Penguin.DependencyInjection.Abstractions
-Penguin.Messaging.Abstractions
-Penguin.Messaging.Persistence
-Penguin.Persistence.Abstractions
