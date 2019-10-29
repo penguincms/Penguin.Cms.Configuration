@@ -1,6 +1,8 @@
 ﻿using Penguin.Cms.Configuration.Repositories.Providers;
 using Penguin.Configuration.Abstractions.Interfaces;
 using Penguin.Configuration.Providers;
+using Penguin.DependencyInjection.Abstractions.Attributes;
+using Penguin.DependencyInjection.Abstractions.Enums;
 using Penguin.DependencyInjection.Abstractions.Interfaces;
 using Penguin.Messaging.Abstractions.Interfaces;
 using Penguin.Messaging.Persistence.Messages;
@@ -16,7 +18,7 @@ namespace Penguin.Cms.Configuration.Services
     /// <summary>
     /// A CMS configuration service that wraps a list of configuration providers and provides accessibility methods
     /// </summary>
-    public partial class ConfigurationService : ISelfRegistering, IMessageHandler<Updating<CmsConfiguration>>, IProvideConfigurations, IConsolidateDependencies<IProvideConfigurations>
+    public partial class ConfigurationService : IMessageHandler<Updating<CmsConfiguration>>, IProvideConfigurations, IConsolidateDependencies<IProvideConfigurations>
     {
         /// <summary>
         /// A dictionary of all configurations with value determined by precedence
