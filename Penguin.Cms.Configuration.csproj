@@ -5,13 +5,15 @@
     <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Configuration</PackageProjectUrl>
     <Description>A service used for simplifying access to Penguin configurations as well as an IRepository wrapping class to centralize database and application configurations</Description>
     <Version>2.0.3</Version>
+    <AssemblyName>Penguin.Cms.Configuration</AssemblyName>
+    <RootNamespace>Penguin.Cms.Configuration</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9M1HHH" />
-    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.5-T9M1HHH" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9M1HHH" />
-    <PackageReference Include="Penguin.Configuration" Version="2.0.2-T9M1HHH" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9M2XAX" />
+    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.5-T9M2XAX" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9M2XAX" />
+    <PackageReference Include="Penguin.Configuration" Version="2.0.2-T9M2XAX" />
   </ItemGroup>
 </Project>
