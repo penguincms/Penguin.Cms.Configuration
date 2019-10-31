@@ -52,7 +52,7 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
         /// <returns>The value (or null) of the configuration</returns>
         public string GetConfiguration(string Key)
         {
-            return Repository.SingleOrDefault(k => k.Name == Key)?.Value;
+            return Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
         }
 
         /// <summary>
