@@ -11,9 +11,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9M3AAF" />
-    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.5-T9M3AAF" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9M3AAF" />
-    <PackageReference Include="Penguin.Configuration" Version="2.0.2-T9M3AAF" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9MJL4F" />
+    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.5-T9MJL4F" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9MJL4F" />
+    <PackageReference Include="Penguin.Configuration" Version="2.0.2-T9MJL4F" />
   </ItemGroup>
 </Project>
