@@ -139,33 +139,63 @@ namespace Penguin.Cms.Configuration.Services
         /// Returns all values from all configurations as CMS configuration objects
         /// </summary>
         /// <returns>All values from all configurations as CMS configuration objects</returns>
-        public List<CmsConfiguration> GetAll()
+        public IEnumerable<CmsConfiguration> GetAll()
         {
+            List<IProvideConfigurations> providers = Providers.ToList();
+
             List<CmsConfiguration> All = new List<CmsConfiguration>();
 
-            foreach (IProvideConfigurations provider in Providers)
+            HashSet<string> returnedNames = new HashSet<string>();
+
+            HashSet<string> nullKeys = new HashSet<string>();
+
+            foreach (IProvideConfigurations provider in providers.Where(p => p is RepositoryProvider))
             {
-                if (provider is RepositoryProvider)
+                foreach (CmsConfiguration c in (provider as RepositoryProvider).Repository.All)
                 {
-                    All.AddRange((provider as RepositoryProvider).Repository.All.ToList());
-                }
-                else
-                {
-                    foreach (KeyValuePair<string, string> kvp in provider.AllConfigurations)
+                    if (c.Value != null && returnedNames.Add(c.Name))
                     {
-                        if (!All.Any(c => c.Name == kvp.Key))
-                        {
-                            All.Add(new CmsConfiguration()
-                            {
-                                Name = kvp.Key,
-                                Value = kvp.Value
-                            });
-                        }
+                        yield return c;
+                    } else if(c.Value is null && !returnedNames.Contains(c.Name))
+                    {
+                        nullKeys.Add(c.Name);
                     }
                 }
             }
 
-            return All;
+            foreach (IProvideConfigurations provider in providers.Where(p => !(p is RepositoryProvider)))
+            {
+
+                foreach (KeyValuePair<string, string> kvp in provider.AllConfigurations)
+                {
+
+                    if (kvp.Value != null && returnedNames.Add(kvp.Key))
+                    {
+                        if(nullKeys.Contains(kvp.Key))
+                        {
+                            nullKeys.Remove(kvp.Key);
+                        }
+
+                        yield return new CmsConfiguration()
+                        {
+                            Name = kvp.Key,
+                            Value = kvp.Value
+                        };
+                    } else if(kvp.Value is null && !returnedNames.Contains(kvp.Key))
+                    {
+                        nullKeys.Add(kvp.Key);
+                    }
+                }
+            }
+
+            foreach(string nullKey in nullKeys)
+            {
+                yield return new CmsConfiguration()
+                {
+                    Name = nullKey,
+                    Value = null
+                };
+            }
         }
 
         /// <summary>
