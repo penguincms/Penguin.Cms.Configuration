@@ -17,7 +17,7 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
         /// <summary>
         /// All configurations found in the repository
         /// </summary>
-        public Dictionary<string, string> AllConfigurations => Repository.All.ToDictionary(k => k.Name, v => v.Value);
+        public Dictionary<string, string> AllConfigurations => this.Repository.All.ToDictionary(k => k.Name, v => v.Value);
 
         /// <summary>
         /// Not used
@@ -42,7 +42,7 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
                 throw new ArgumentNullException($"Can not create instance of {nameof(RepositoryProvider)} with null {nameof(provider)}");
             }
 
-            Repository = provider;
+            this.Repository = provider;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
         /// <returns>The value (or null) of the configuration</returns>
         public string GetConfiguration(string Key)
         {
-            return Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
+            return this.Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
         }
 
         /// <summary>
@@ -65,6 +65,9 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
             return null;
         }
 
-        public bool SetConfiguration(string Name, string Value) => Repository.SetValue(Name, Value);
+        public bool SetConfiguration(string Name, string Value)
+        {
+            return this.Repository.SetValue(Name, Value);
+        }
     }
 }

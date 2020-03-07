@@ -1,21 +1,18 @@
 ﻿using Penguin.Persistence.Abstractions.Interfaces;
-using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Penguin.Cms.Configuration.Extensions
 {
     public static class CmsConfigurationRepositoryExtensions
     {
-        public static string GetValueByName(this IRepository<CmsConfiguration> repository, string Name)
-        {
-            return repository?.FirstOrDefault(c => c.Name == Name)?.Value;
-        }
-
         public static CmsConfiguration GetByName(this IRepository<CmsConfiguration> repository, string Name)
         {
             return repository?.FirstOrDefault(c => c.Name == Name);
+        }
+
+        public static string GetValueByName(this IRepository<CmsConfiguration> repository, string Name)
+        {
+            return repository?.FirstOrDefault(c => c.Name == Name)?.Value;
         }
 
         public static bool SetValue(this IRepository<CmsConfiguration> repository, string Name, string Value)

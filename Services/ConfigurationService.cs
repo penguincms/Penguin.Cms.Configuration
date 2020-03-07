@@ -1,8 +1,6 @@
 ﻿using Penguin.Cms.Configuration.Repositories.Providers;
 using Penguin.Configuration.Abstractions.Interfaces;
 using Penguin.Configuration.Providers;
-using Penguin.DependencyInjection.Abstractions.Attributes;
-using Penguin.DependencyInjection.Abstractions.Enums;
 using Penguin.DependencyInjection.Abstractions.Interfaces;
 using Penguin.Messaging.Abstractions.Interfaces;
 using Penguin.Messaging.Persistence.Messages;
@@ -29,7 +27,7 @@ namespace Penguin.Cms.Configuration.Services
             {
                 Dictionary<string, string> toReturn = new Dictionary<string, string>();
 
-                foreach (IProvideConfigurations provider in Providers)
+                foreach (IProvideConfigurations provider in this.Providers)
                 {
                     foreach (KeyValuePair<string, string> kvp in provider.AllConfigurations)
                     {
@@ -53,7 +51,7 @@ namespace Penguin.Cms.Configuration.Services
             {
                 Dictionary<string, string> toReturn = new Dictionary<string, string>();
 
-                foreach (IProvideConfigurations provider in Providers)
+                foreach (IProvideConfigurations provider in this.Providers)
                 {
                     foreach (KeyValuePair<string, string> kvp in provider.AllConnectionStrings)
                     {
@@ -92,7 +90,7 @@ namespace Penguin.Cms.Configuration.Services
         /// <param name="providers">And ordered list of configuration providers</param>
         public ConfigurationService(params IProvideConfigurations[] providers)
         {
-            Providers = providers.Where(p => !(p is ConfigurationService)).ToList();
+            this.Providers = providers.Where(p => !(p is ConfigurationService)).ToList();
         }
 
         /// <summary>
@@ -115,7 +113,10 @@ namespace Penguin.Cms.Configuration.Services
         /// <summary>
         /// Flushes all values cached (static) by the configuration service
         /// </summary>
-        public static void FlushCache() => CachedValues = new ConcurrentDictionary<string, object>();
+        public static void FlushCache()
+        {
+            CachedValues = new ConcurrentDictionary<string, object>();
+        }
 
         /// <summary>
         /// Message Handler that removes a configuration from the cache when the value is updated
@@ -141,7 +142,7 @@ namespace Penguin.Cms.Configuration.Services
         /// <returns>All values from all configurations as CMS configuration objects</returns>
         public IEnumerable<CmsConfiguration> GetAll()
         {
-            List<IProvideConfigurations> providers = Providers.ToList();
+            List<IProvideConfigurations> providers = this.Providers.ToList();
 
             List<CmsConfiguration> All = new List<CmsConfiguration>();
 
@@ -156,7 +157,8 @@ namespace Penguin.Cms.Configuration.Services
                     if (c.Value != null && returnedNames.Add(c.Name))
                     {
                         yield return c;
-                    } else if(c.Value is null && !returnedNames.Contains(c.Name))
+                    }
+                    else if (c.Value is null && !returnedNames.Contains(c.Name))
                     {
                         nullKeys.Add(c.Name);
                     }
@@ -165,13 +167,11 @@ namespace Penguin.Cms.Configuration.Services
 
             foreach (IProvideConfigurations provider in providers.Where(p => !(p is RepositoryProvider)))
             {
-
                 foreach (KeyValuePair<string, string> kvp in provider.AllConfigurations)
                 {
-
                     if (kvp.Value != null && returnedNames.Add(kvp.Key))
                     {
-                        if(nullKeys.Contains(kvp.Key))
+                        if (nullKeys.Contains(kvp.Key))
                         {
                             nullKeys.Remove(kvp.Key);
                         }
@@ -181,14 +181,15 @@ namespace Penguin.Cms.Configuration.Services
                             Name = kvp.Key,
                             Value = kvp.Value
                         };
-                    } else if(kvp.Value is null && !returnedNames.Contains(kvp.Key))
+                    }
+                    else if (kvp.Value is null && !returnedNames.Contains(kvp.Key))
                     {
                         nullKeys.Add(kvp.Key);
                     }
                 }
             }
 
-            foreach(string nullKey in nullKeys)
+            foreach (string nullKey in nullKeys)
             {
                 yield return new CmsConfiguration()
                 {
@@ -207,7 +208,7 @@ namespace Penguin.Cms.Configuration.Services
         {
             string toReturn = null;
 
-            foreach (IProvideConfigurations provider in Providers.OrderBy(p => p.CanWrite ? 0 : 1))
+            foreach (IProvideConfigurations provider in this.Providers.OrderBy(p => p.CanWrite ? 0 : 1))
             {
                 toReturn = provider.GetConfiguration(Key);
 
@@ -220,7 +221,7 @@ namespace Penguin.Cms.Configuration.Services
             //For each requested configuration we want to make sure the writable providers are aware of its existence,
             //but we leave the value null so that it does not override any existing return from other providers unless its actually
             //persisted
-            foreach (IProvideConfigurations writeProvider in Providers.Where(p => p.CanWrite))
+            foreach (IProvideConfigurations writeProvider in this.Providers.Where(p => p.CanWrite))
             {
                 if (writeProvider.GetConfiguration(Key) is null)
                 {
@@ -240,7 +241,7 @@ namespace Penguin.Cms.Configuration.Services
         {
             string ConnectionString;
 
-            foreach (IProvideConfigurations provider in Providers)
+            foreach (IProvideConfigurations provider in this.Providers)
             {
                 ConnectionString = provider.GetConnectionString(Name);
 
@@ -257,7 +258,7 @@ namespace Penguin.Cms.Configuration.Services
         {
             bool toReturn = false;
 
-            foreach (IProvideConfigurations pc in Providers)
+            foreach (IProvideConfigurations pc in this.Providers)
             {
                 if (pc.CanWrite && pc.SetConfiguration(Name, Value))
                 {
