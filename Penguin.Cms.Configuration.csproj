@@ -10,9 +10,9 @@
     <DocumentationFile>Penguin.Cms.Configuration.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9RVMZA" />
-    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.5-T9RVMZA" />
-    <PackageReference Include="Penguin.Configuration" Version="2.0.2-T9SPWN8" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9UEEAT" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="2.1.6-T9UFJ6O" />
+    <PackageReference Include="Penguin.Messaging.Persistence" Version="2.2.5-T9UFJ6O" />
+    <PackageReference Include="Penguin.Configuration" Version="2.0.2-T9UFJ6O" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="3.0.4-T9UFJ6O" />
   </ItemGroup>
 </Project>
