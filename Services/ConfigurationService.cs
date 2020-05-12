@@ -42,6 +42,9 @@ namespace Penguin.Cms.Configuration.Services
             }
         }
 
+        public static IReadOnlyDictionary<string,string> RequestedConfigurations => requestedConfigurations;
+        private static ConcurrentDictionary<string,string> requestedConfigurations = new ConcurrentDictionary<string,string>();
+
         /// <summary>
         /// A dictionary of all connection strings with value determined by precendence
         /// </summary>
@@ -218,16 +221,29 @@ namespace Penguin.Cms.Configuration.Services
                 }
             }
 
+            if (!requestedConfigurations.ContainsKey(Key))
+            {
+                requestedConfigurations.TryAdd(Key, toReturn);
+            } else
+            {
+                requestedConfigurations[Key] = toReturn;
+            }
+
             //For each requested configuration we want to make sure the writable providers are aware of its existence,
             //but we leave the value null so that it does not override any existing return from other providers unless its actually
             //persisted
-            foreach (IProvideConfigurations writeProvider in this.Providers.Where(p => p.CanWrite))
-            {
-                if (writeProvider.GetConfiguration(Key) is null)
-                {
-                    writeProvider.SetConfiguration(Key, null);
-                }
-            }
+
+            //2020-05-06
+            //This is causing issues when the same configuration is requested twice in a single context.
+            //
+
+            //foreach (IProvideConfigurations writeProvider in this.Providers.Where(p => p.CanWrite))
+            //{
+            //    if (writeProvider.GetConfiguration(Key) is null)
+            //    {
+            //        writeProvider.SetConfiguration(Key, null);
+            //    }
+            //}
 
             return toReturn;
         }
