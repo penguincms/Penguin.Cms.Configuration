@@ -64,6 +64,11 @@
             A CMS configuration service that wraps a list of configuration providers and provides accessibility methods
             </summary>
         </member>
+        <member name="P:Penguin.Cms.Configuration.Services.ConfigurationService.RequestedConfigurations">
+            <summary>
+            Contains a list of all the configuration names and values requested and returned by the service. Intended to allow for identifying unset configurations
+            </summary>
+        </member>
         <member name="P:Penguin.Cms.Configuration.Services.ConfigurationService.AllConfigurations">
             <summary>
             A dictionary of all configurations with value determined by precedence
@@ -74,9 +79,19 @@
             A dictionary of all connection strings with value determined by precendence
             </summary>
         </member>
+        <member name="P:Penguin.Cms.Configuration.Services.ConfigurationService.CanWrite">
+            <summary>
+            True, this implementation of IProvideConfigurations has the potential to allow for writing
+            </summary>
+        </member>
         <member name="P:Penguin.Cms.Configuration.Services.ConfigurationService.Providers">
             <summary>
             A list of child providers used when constucting this instance
+            </summary>
+        </member>
+        <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.#ctor">
+            <summary>
+            Initializes a new instance of the configuration service
             </summary>
         </member>
         <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.#ctor(Penguin.Configuration.Abstractions.Interfaces.IProvideConfigurations[])">
@@ -128,6 +143,14 @@
             </summary>
             <param name="Name">The name of the connection string</param>
             <returns>The value (or null) of the connection string</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.SetConfiguration(System.String,System.String)">
+            <summary>
+            Searches the included providers for a writable configuration, and saves the value in the first writable provider
+            </summary>
+            <param name="Name">The configuration name to update</param>
+            <param name="Value">The new value</param>
+            <returns>True if a writable provider was found to persist the value</returns>
         </member>
         <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.TryGet(System.String,System.String@)">
             <summary>

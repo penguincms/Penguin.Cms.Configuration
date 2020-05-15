@@ -1,4 +1,5 @@
 ﻿using Penguin.Cms.Configuration.Repositories.Providers;
+using Penguin.Configuration.Abstractions.Extensions;
 using Penguin.Configuration.Abstractions.Interfaces;
 using Penguin.Configuration.Providers;
 using Penguin.DependencyInjection.Abstractions.Interfaces;
@@ -16,8 +17,15 @@ namespace Penguin.Cms.Configuration.Services
     /// <summary>
     /// A CMS configuration service that wraps a list of configuration providers and provides accessibility methods
     /// </summary>
-    public partial class ConfigurationService : IMessageHandler<Updating<CmsConfiguration>>, IProvideConfigurations, IConsolidateDependencies<IProvideConfigurations>
+    public partial class ConfigurationService : IMessageHandler<Updating<CmsConfiguration>>, IProvideConfigurationsCollection, IConsolidateDependencies<IProvideConfigurations>
     {
+        private static readonly ConcurrentDictionary<string, string> requestedConfigurations = new ConcurrentDictionary<string, string>();
+
+        /// <summary>
+        /// Contains a list of all the configuration names and values requested and returned by the service. Intended to allow for identifying unset configurations
+        /// </summary>
+        public static IReadOnlyDictionary<string, string> RequestedConfigurations => requestedConfigurations;
+
         /// <summary>
         /// A dictionary of all configurations with value determined by precedence
         /// </summary>
@@ -41,9 +49,6 @@ namespace Penguin.Cms.Configuration.Services
                 return toReturn;
             }
         }
-
-        public static IReadOnlyDictionary<string,string> RequestedConfigurations => requestedConfigurations;
-        private static ConcurrentDictionary<string,string> requestedConfigurations = new ConcurrentDictionary<string,string>();
 
         /// <summary>
         /// A dictionary of all connection strings with value determined by precendence
@@ -69,6 +74,9 @@ namespace Penguin.Cms.Configuration.Services
             }
         }
 
+        /// <summary>
+        /// True, this implementation of IProvideConfigurations has the potential to allow for writing
+        /// </summary>
         public bool CanWrite => true;
 
         /// <summary>
@@ -83,6 +91,9 @@ namespace Penguin.Cms.Configuration.Services
             CachedValues = new ConcurrentDictionary<string, object>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the configuration service
+        /// </summary>
         public ConfigurationService()
         {
         }
@@ -132,6 +143,7 @@ namespace Penguin.Cms.Configuration.Services
             CachedValues.TryRemove(target.Target.Name, out object _);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "We only want this callable from the interface")]
         IProvideConfigurations IConsolidateDependencies<IProvideConfigurations>.Consolidate(IEnumerable<IProvideConfigurations> dependencies)
         {
             this.Providers = dependencies;
@@ -224,7 +236,8 @@ namespace Penguin.Cms.Configuration.Services
             if (!requestedConfigurations.ContainsKey(Key))
             {
                 requestedConfigurations.TryAdd(Key, toReturn);
-            } else
+            }
+            else
             {
                 requestedConfigurations[Key] = toReturn;
             }
@@ -270,20 +283,13 @@ namespace Penguin.Cms.Configuration.Services
             return null;
         }
 
-        public bool SetConfiguration(string Name, string Value)
-        {
-            bool toReturn = false;
-
-            foreach (IProvideConfigurations pc in this.Providers)
-            {
-                if (pc.CanWrite && pc.SetConfiguration(Name, Value))
-                {
-                    toReturn = true;
-                }
-            }
-
-            return toReturn;
-        }
+        /// <summary>
+        /// Searches the included providers for a writable configuration, and saves the value in the first writable provider
+        /// </summary>
+        /// <param name="Name">The configuration name to update</param>
+        /// <param name="Value">The new value</param>
+        /// <returns>True if a writable provider was found to persist the value</returns>
+        public bool SetConfiguration(string Name, string Value) => IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
 
         /// <summary>
         /// Attempts to get a configuration value without fail
