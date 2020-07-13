@@ -138,7 +138,10 @@ namespace Penguin.Cms.Configuration.Services
         /// <param name="target">A message containing the configuration to be removed</param>
         public void AcceptMessage(Updating<CmsConfiguration> target)
         {
-            Contract.Requires(target != null);
+            if (target is null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
 
             CachedValues.TryRemove(target.Target.Name, out object _);
         }
