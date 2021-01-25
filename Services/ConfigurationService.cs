@@ -9,7 +9,6 @@ using Penguin.Persistence.Abstractions.Interfaces;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Penguin.Cms.Configuration.Services
@@ -146,7 +145,6 @@ namespace Penguin.Cms.Configuration.Services
             CachedValues.TryRemove(target.Target.Name, out object _);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "We only want this callable from the interface")]
         IProvideConfigurations IConsolidateDependencies<IProvideConfigurations>.Consolidate(IEnumerable<IProvideConfigurations> dependencies)
         {
             this.Providers = dependencies;
@@ -292,7 +290,10 @@ namespace Penguin.Cms.Configuration.Services
         /// <param name="Name">The configuration name to update</param>
         /// <param name="Value">The new value</param>
         /// <returns>True if a writable provider was found to persist the value</returns>
-        public bool SetConfiguration(string Name, string Value) => IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
+        public bool SetConfiguration(string Name, string Value)
+        {
+            return IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
+        }
 
         /// <summary>
         /// Attempts to get a configuration value without fail
