@@ -4,15 +4,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Configuration</PackageProjectUrl>
     <Description>A service used for simplifying access to Penguin configurations as well as an IRepository wrapping class to centralize database and application configurations</Description>
-    <Version>5.0.0</Version>
+    <Version>5.0.1</Version>
     <AssemblyName>Penguin.Cms.Configuration</AssemblyName>
     <RootNamespace>Penguin.Cms.Configuration</RootNamespace>
     <DocumentationFile>Penguin.Cms.Configuration.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.0.1-TA99DVY" />
-    <PackageReference Include="Penguin.Messaging.Persistence" Version="5.0.1-TA99DVY" />
-    <PackageReference Include="Penguin.Configuration" Version="5.0.1-TA99DVY" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.1-TA99DVY" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.0.2-TA9KKLU" />
+    <PackageReference Include="Penguin.Messaging.Persistence" Version="5.0.2-TA9KKLU" />
+    <PackageReference Include="Penguin.Configuration" Version="5.0.2-TA9KKLU" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.2-TA9KKLU" />
   </ItemGroup>
 </Project>
