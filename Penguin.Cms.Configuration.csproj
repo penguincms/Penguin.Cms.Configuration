@@ -13,6 +13,6 @@
     <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.0.2-TA9KKLU" />
     <PackageReference Include="Penguin.Messaging.Persistence" Version="5.0.2-TA9KKLU" />
     <PackageReference Include="Penguin.Configuration" Version="5.0.2-TA9KKLU" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.2-TA9KKLU" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.0.2-TAA4YFP" />
   </ItemGroup>
 </Project>
