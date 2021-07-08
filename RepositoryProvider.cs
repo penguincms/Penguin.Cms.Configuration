@@ -39,7 +39,7 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
         {
             if (provider is null)
             {
-                throw new ArgumentNullException($"Can not create instance of {nameof(RepositoryProvider)} with null {nameof(provider)}");
+                throw new ArgumentNullException(nameof(provider), $"Can not create instance of {nameof(RepositoryProvider)} with null {nameof(provider)}");
             }
 
             this.Repository = provider;
