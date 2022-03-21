@@ -126,10 +126,7 @@ namespace Penguin.Cms.Configuration.Services
         /// <summary>
         /// Flushes all values cached (static) by the configuration service
         /// </summary>
-        public static void FlushCache()
-        {
-            CachedValues = new ConcurrentDictionary<string, object>();
-        }
+        public static void FlushCache() => CachedValues = new ConcurrentDictionary<string, object>();
 
         /// <summary>
         /// Message Handler that removes a configuration from the cache when the value is updated
@@ -290,10 +287,7 @@ namespace Penguin.Cms.Configuration.Services
         /// <param name="Name">The configuration name to update</param>
         /// <param name="Value">The new value</param>
         /// <returns>True if a writable provider was found to persist the value</returns>
-        public bool SetConfiguration(string Name, string Value)
-        {
-            return IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
-        }
+        public bool SetConfiguration(string Name, string Value) => IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
 
         /// <summary>
         /// Attempts to get a configuration value without fail
