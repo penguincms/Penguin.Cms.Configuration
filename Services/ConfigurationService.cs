@@ -1,5 +1,4 @@
-﻿using Penguin.Cms.Configuration.Repositories.Providers;
-using Penguin.Configuration.Abstractions.Extensions;
+﻿using Penguin.Configuration.Abstractions.Extensions;
 using Penguin.Configuration.Abstractions.Interfaces;
 using Penguin.Configuration.Providers;
 using Penguin.DependencyInjection.Abstractions.Interfaces;
@@ -126,7 +125,10 @@ namespace Penguin.Cms.Configuration.Services
         /// <summary>
         /// Flushes all values cached (static) by the configuration service
         /// </summary>
-        public static void FlushCache() => CachedValues = new ConcurrentDictionary<string, object>();
+        public static void FlushCache()
+        {
+            CachedValues = new ConcurrentDictionary<string, object>();
+        }
 
         /// <summary>
         /// Message Handler that removes a configuration from the cache when the value is updated
@@ -139,7 +141,7 @@ namespace Penguin.Cms.Configuration.Services
                 throw new ArgumentNullException(nameof(target));
             }
 
-            CachedValues.TryRemove(target.Target.Name, out object _);
+            _ = CachedValues.TryRemove(target.Target.Name, out _);
         }
 
         IProvideConfigurations IConsolidateDependencies<IProvideConfigurations>.Consolidate(IEnumerable<IProvideConfigurations> dependencies)
@@ -173,7 +175,7 @@ namespace Penguin.Cms.Configuration.Services
                     }
                     else if (c.Value is null && !returnedNames.Contains(c.Name))
                     {
-                        nullKeys.Add(c.Name);
+                        _ = nullKeys.Add(c.Name);
                     }
                 }
             }
@@ -186,7 +188,7 @@ namespace Penguin.Cms.Configuration.Services
                     {
                         if (nullKeys.Contains(kvp.Key))
                         {
-                            nullKeys.Remove(kvp.Key);
+                            _ = nullKeys.Remove(kvp.Key);
                         }
 
                         yield return new CmsConfiguration()
@@ -197,7 +199,7 @@ namespace Penguin.Cms.Configuration.Services
                     }
                     else if (kvp.Value is null && !returnedNames.Contains(kvp.Key))
                     {
-                        nullKeys.Add(kvp.Key);
+                        _ = nullKeys.Add(kvp.Key);
                     }
                 }
             }
@@ -233,7 +235,7 @@ namespace Penguin.Cms.Configuration.Services
 
             if (!requestedConfigurations.ContainsKey(Key))
             {
-                requestedConfigurations.TryAdd(Key, toReturn);
+                _ = requestedConfigurations.TryAdd(Key, toReturn);
             }
             else
             {
@@ -287,7 +289,10 @@ namespace Penguin.Cms.Configuration.Services
         /// <param name="Name">The configuration name to update</param>
         /// <param name="Value">The new value</param>
         /// <returns>True if a writable provider was found to persist the value</returns>
-        public bool SetConfiguration(string Name, string Value) => IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
+        public bool SetConfiguration(string Name, string Value)
+        {
+            return IProvideConfigurationsCollectionExtensions.SetConfiguration(this, Name, Value);
+        }
 
         /// <summary>
         /// Attempts to get a configuration value without fail

@@ -1,4 +1,15 @@
-﻿using Penguin.Cms.Configuration.Extensions;
+﻿
+/* Unmerged change from project 'Penguin.Cms.Configuration.Local (netstandard2.1)'
+Before:
+using Penguin.Cms.Configuration.Extensions;
+After:
+using Penguin;
+using Penguin.Cms;
+using Penguin.Cms.Configuration;
+using Penguin.Cms.Configuration;
+using Penguin.Cms.Configuration.Extensions;
+*/
+using Penguin.Cms.Configuration.Extensions;
 using Penguin.Configuration.Abstractions.Interfaces;
 using Penguin.DependencyInjection.Abstractions.Attributes;
 using Penguin.Persistence.Abstractions.Interfaces;
@@ -6,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Penguin.Cms.Configuration.Repositories.Providers
+namespace Penguin.Cms.Configuration
 {
     /// <summary>
     /// A configuation provider that wraps a repository for cms configurations
@@ -50,15 +61,24 @@ namespace Penguin.Cms.Configuration.Repositories.Providers
         /// </summary>
         /// <param name="Key">The Key of the configuration to get</param>
         /// <returns>The value (or null) of the configuration</returns>
-        public string GetConfiguration(string Key) => this.Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
+        public string GetConfiguration(string Key)
+        {
+            return this.Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
+        }
 
         /// <summary>
         /// Unused
         /// </summary>
         /// <param name="Name">Unused</param>
         /// <returns>Null</returns>
-        public string GetConnectionString(string Name) => null;
+        public string GetConnectionString(string Name)
+        {
+            return null;
+        }
 
-        public bool SetConfiguration(string Name, string Value) => this.Repository.SetValue(Name, Value);
+        public bool SetConfiguration(string Name, string Value)
+        {
+            return this.Repository.SetValue(Name, Value);
+        }
     }
 }

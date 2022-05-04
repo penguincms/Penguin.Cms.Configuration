@@ -19,40 +19,40 @@
             The value of the configuration
             </summary>
         </member>
-        <member name="T:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider">
+        <member name="T:Penguin.Cms.Configuration.RepositoryProvider">
             <summary>
             A configuation provider that wraps a repository for cms configurations
             </summary>
         </member>
-        <member name="P:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider.AllConfigurations">
+        <member name="P:Penguin.Cms.Configuration.RepositoryProvider.AllConfigurations">
             <summary>
             All configurations found in the repository
             </summary>
         </member>
-        <member name="P:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider.AllConnectionStrings">
+        <member name="P:Penguin.Cms.Configuration.RepositoryProvider.AllConnectionStrings">
             <summary>
             Not used
             </summary>
         </member>
-        <member name="P:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider.Repository">
+        <member name="P:Penguin.Cms.Configuration.RepositoryProvider.Repository">
             <summary>
             The Repository used when constructing this instance
             </summary>
         </member>
-        <member name="M:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configuration.CmsConfiguration})">
+        <member name="M:Penguin.Cms.Configuration.RepositoryProvider.#ctor(Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Configuration.CmsConfiguration})">
             <summary>
             Creates a new instance of this configuration provider
             </summary>
             <param name="provider">The repository implementation to wrap</param>
         </member>
-        <member name="M:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider.GetConfiguration(System.String)">
+        <member name="M:Penguin.Cms.Configuration.RepositoryProvider.GetConfiguration(System.String)">
             <summary>
             Gets a configuration by Key
             </summary>
             <param name="Key">The Key of the configuration to get</param>
             <returns>The value (or null) of the configuration</returns>
         </member>
-        <member name="M:Penguin.Cms.Configuration.Repositories.Providers.RepositoryProvider.GetConnectionString(System.String)">
+        <member name="M:Penguin.Cms.Configuration.RepositoryProvider.GetConnectionString(System.String)">
             <summary>
             Unused
             </summary>
