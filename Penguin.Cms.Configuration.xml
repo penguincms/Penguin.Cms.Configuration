@@ -34,6 +34,9 @@
             Not used
             </summary>
         </member>
+        <member name="P:Penguin.Cms.Configuration.RepositoryProvider.CanWrite">
+            <inheritdoc/>
+        </member>
         <member name="P:Penguin.Cms.Configuration.RepositoryProvider.Repository">
             <summary>
             The Repository used when constructing this instance
@@ -58,6 +61,9 @@
             </summary>
             <param name="Name">Unused</param>
             <returns>Null</returns>
+        </member>
+        <member name="M:Penguin.Cms.Configuration.RepositoryProvider.SetConfiguration(System.String,System.String)">
+            <inheritdoc/>
         </member>
         <member name="T:Penguin.Cms.Configuration.Services.ConfigurationService">
             <summary>
@@ -122,7 +128,10 @@
             <summary>
             Message Handler that removes a configuration from the cache when the value is updated
             </summary>
-            <param name="target">A message containing the configuration to be removed</param>
+            <param name="message">A message containing the configuration to be removed</param>
+        </member>
+        <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.Consolidate(System.Collections.Generic.IEnumerable{Penguin.Configuration.Abstractions.Interfaces.IProvideConfigurations})">
+            <inheritdoc/>
         </member>
         <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.GetAll">
             <summary>

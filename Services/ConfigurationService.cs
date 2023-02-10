@@ -17,7 +17,7 @@ namespace Penguin.Cms.Configuration.Services
     /// </summary>
     public partial class ConfigurationService : IMessageHandler<Updating<CmsConfiguration>>, IProvideConfigurationsCollection, IConsolidateDependencies<IProvideConfigurations>
     {
-        private static readonly ConcurrentDictionary<string, string> requestedConfigurations = new ConcurrentDictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> requestedConfigurations = new();
 
         /// <summary>
         /// Contains a list of all the configuration names and values requested and returned by the service. Intended to allow for identifying unset configurations
@@ -31,9 +31,9 @@ namespace Penguin.Cms.Configuration.Services
         {
             get
             {
-                Dictionary<string, string> toReturn = new Dictionary<string, string>();
+                Dictionary<string, string> toReturn = new();
 
-                foreach (IProvideConfigurations provider in this.Providers)
+                foreach (IProvideConfigurations provider in Providers)
                 {
                     foreach (KeyValuePair<string, string> kvp in provider.AllConfigurations)
                     {
@@ -55,9 +55,9 @@ namespace Penguin.Cms.Configuration.Services
         {
             get
             {
-                Dictionary<string, string> toReturn = new Dictionary<string, string>();
+                Dictionary<string, string> toReturn = new();
 
-                foreach (IProvideConfigurations provider in this.Providers)
+                foreach (IProvideConfigurations provider in Providers)
                 {
                     foreach (KeyValuePair<string, string> kvp in provider.AllConnectionStrings)
                     {
@@ -102,7 +102,7 @@ namespace Penguin.Cms.Configuration.Services
         /// <param name="providers">And ordered list of configuration providers</param>
         public ConfigurationService(params IProvideConfigurations[] providers)
         {
-            this.Providers = providers.Where(p => !(p is ConfigurationService)).ToList();
+            Providers = providers.Where(p => p is not ConfigurationService).ToList();
         }
 
         /// <summary>
@@ -133,20 +133,21 @@ namespace Penguin.Cms.Configuration.Services
         /// <summary>
         /// Message Handler that removes a configuration from the cache when the value is updated
         /// </summary>
-        /// <param name="target">A message containing the configuration to be removed</param>
-        public void AcceptMessage(Updating<CmsConfiguration> target)
+        /// <param name="message">A message containing the configuration to be removed</param>
+        public void AcceptMessage(Updating<CmsConfiguration> message)
         {
-            if (target is null)
+            if (message is null)
             {
-                throw new ArgumentNullException(nameof(target));
+                throw new ArgumentNullException(nameof(message));
             }
 
-            _ = CachedValues.TryRemove(target.Target.Name, out _);
+            _ = CachedValues.TryRemove(message.Target.Name, out _);
         }
+        /// <inheritdoc/>
 
-        IProvideConfigurations IConsolidateDependencies<IProvideConfigurations>.Consolidate(IEnumerable<IProvideConfigurations> dependencies)
+        public IProvideConfigurations Consolidate(IEnumerable<IProvideConfigurations> dependencies)
         {
-            this.Providers = dependencies;
+            Providers = dependencies;
 
             return this;
         }
@@ -157,13 +158,13 @@ namespace Penguin.Cms.Configuration.Services
         /// <returns>All values from all configurations as CMS configuration objects</returns>
         public IEnumerable<CmsConfiguration> GetAll()
         {
-            List<IProvideConfigurations> providers = this.Providers.ToList();
+            List<IProvideConfigurations> providers = Providers.ToList();
 
-            List<CmsConfiguration> All = new List<CmsConfiguration>();
+            List<CmsConfiguration> All = new();
 
-            HashSet<string> returnedNames = new HashSet<string>();
+            HashSet<string> returnedNames = new();
 
-            HashSet<string> nullKeys = new HashSet<string>();
+            HashSet<string> nullKeys = new();
 
             foreach (IProvideConfigurations provider in providers.Where(p => p is RepositoryProvider))
             {
@@ -180,7 +181,7 @@ namespace Penguin.Cms.Configuration.Services
                 }
             }
 
-            foreach (IProvideConfigurations provider in providers.Where(p => !(p is RepositoryProvider)))
+            foreach (IProvideConfigurations provider in providers.Where(p => p is not RepositoryProvider))
             {
                 foreach (KeyValuePair<string, string> kvp in provider.AllConfigurations)
                 {
@@ -223,7 +224,7 @@ namespace Penguin.Cms.Configuration.Services
         {
             string toReturn = null;
 
-            foreach (IProvideConfigurations provider in this.Providers.OrderBy(p => p.CanWrite ? 0 : 1))
+            foreach (IProvideConfigurations provider in Providers.OrderBy(p => p.CanWrite ? 0 : 1))
             {
                 toReturn = provider.GetConfiguration(Key);
 
@@ -270,7 +271,7 @@ namespace Penguin.Cms.Configuration.Services
         {
             string ConnectionString;
 
-            foreach (IProvideConfigurations provider in this.Providers)
+            foreach (IProvideConfigurations provider in Providers)
             {
                 ConnectionString = provider.GetConnectionString(Name);
 
@@ -304,7 +305,7 @@ namespace Penguin.Cms.Configuration.Services
         {
             try
             {
-                value = this.GetConfiguration(key);
+                value = GetConfiguration(key);
                 return true;
             }
             catch (Exception)

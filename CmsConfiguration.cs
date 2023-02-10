@@ -14,7 +14,7 @@ namespace Penguin.Cms.Configuration
         /// </summary>
         [Index(true)]
         [StringLength(450)]
-        public string Name { get => this.ExternalId; set => this.ExternalId = value; }
+        public string Name { get => ExternalId; set => ExternalId = value; }
 
         /// <summary>
         /// The value of the configuration

@@ -1,15 +1,4 @@
-﻿
-/* Unmerged change from project 'Penguin.Cms.Configuration.Local (netstandard2.1)'
-Before:
-using Penguin.Cms.Configuration.Extensions;
-After:
-using Penguin;
-using Penguin.Cms;
-using Penguin.Cms.Configuration;
-using Penguin.Cms.Configuration;
-using Penguin.Cms.Configuration.Extensions;
-*/
-using Penguin.Cms.Configuration.Extensions;
+﻿using Penguin.Cms.Configuration.Extensions;
 using Penguin.Configuration.Abstractions.Interfaces;
 using Penguin.DependencyInjection.Abstractions.Attributes;
 using Penguin.Persistence.Abstractions.Interfaces;
@@ -28,12 +17,13 @@ namespace Penguin.Cms.Configuration
         /// <summary>
         /// All configurations found in the repository
         /// </summary>
-        public Dictionary<string, string> AllConfigurations => this.Repository.All.ToDictionary(k => k.Name, v => v.Value);
+        public Dictionary<string, string> AllConfigurations => Repository.All.ToDictionary(k => k.Name, v => v.Value);
 
         /// <summary>
         /// Not used
         /// </summary>
-        public Dictionary<string, string> AllConnectionStrings => new Dictionary<string, string>();
+        public Dictionary<string, string> AllConnectionStrings => new();
+        /// <inheritdoc/>
 
         public bool CanWrite => true;
 
@@ -53,7 +43,7 @@ namespace Penguin.Cms.Configuration
                 throw new ArgumentNullException(nameof(provider), $"Can not create instance of {nameof(RepositoryProvider)} with null {nameof(provider)}");
             }
 
-            this.Repository = provider;
+            Repository = provider;
         }
 
         /// <summary>
@@ -63,7 +53,7 @@ namespace Penguin.Cms.Configuration
         /// <returns>The value (or null) of the configuration</returns>
         public string GetConfiguration(string Key)
         {
-            return this.Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
+            return Repository.Where(k => k.Name == Key).ToList().LastOrDefault()?.Value;
         }
 
         /// <summary>
@@ -75,10 +65,11 @@ namespace Penguin.Cms.Configuration
         {
             return null;
         }
+        /// <inheritdoc/>
 
         public bool SetConfiguration(string Name, string Value)
         {
-            return this.Repository.SetValue(Name, Value);
+            return Repository.SetValue(Name, Value);
         }
     }
 }
