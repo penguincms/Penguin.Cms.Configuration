@@ -143,6 +143,7 @@ namespace Penguin.Cms.Configuration.Services
 
             _ = CachedValues.TryRemove(message.Target.Name, out _);
         }
+
         /// <inheritdoc/>
 
         public IProvideConfigurations Consolidate(IEnumerable<IProvideConfigurations> dependencies)

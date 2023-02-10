@@ -35,7 +35,7 @@
             </summary>
         </member>
         <member name="P:Penguin.Cms.Configuration.RepositoryProvider.CanWrite">
-            <inheritdoc/>
+            <inheritdoc />
         </member>
         <member name="P:Penguin.Cms.Configuration.RepositoryProvider.Repository">
             <summary>
@@ -63,7 +63,7 @@
             <returns>Null</returns>
         </member>
         <member name="M:Penguin.Cms.Configuration.RepositoryProvider.SetConfiguration(System.String,System.String)">
-            <inheritdoc/>
+            <inheritdoc />
         </member>
         <member name="T:Penguin.Cms.Configuration.Services.ConfigurationService">
             <summary>
@@ -131,7 +131,7 @@
             <param name="message">A message containing the configuration to be removed</param>
         </member>
         <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.Consolidate(System.Collections.Generic.IEnumerable{Penguin.Configuration.Abstractions.Interfaces.IProvideConfigurations})">
-            <inheritdoc/>
+            <inheritdoc />
         </member>
         <member name="M:Penguin.Cms.Configuration.Services.ConfigurationService.GetAll">
             <summary>
