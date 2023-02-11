@@ -23,6 +23,7 @@ namespace Penguin.Cms.Configuration
         /// Not used
         /// </summary>
         public Dictionary<string, string> AllConnectionStrings => new();
+
         /// <inheritdoc/>
 
         public bool CanWrite => true;
@@ -65,6 +66,7 @@ namespace Penguin.Cms.Configuration
         {
             return null;
         }
+
         /// <inheritdoc/>
 
         public bool SetConfiguration(string Name, string Value)
