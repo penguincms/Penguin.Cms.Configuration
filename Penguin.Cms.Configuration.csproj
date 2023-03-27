@@ -11,9 +11,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.2.0" />
-    <PackageReference Include="Penguin.Messaging.Persistence" Version="5.2.0" />
-    <PackageReference Include="Penguin.Configuration" Version="5.2.0" />
-    <PackageReference Include="Penguin.Cms.Entities" Version="5.2.0" />
+    <PackageReference Include="Penguin.DependencyInjection.Abstractions" Version="5.4.0" />
+    <PackageReference Include="Penguin.Messaging.Persistence" Version="5.4.0" />
+    <PackageReference Include="Penguin.Configuration" Version="5.4.0" />
+    <PackageReference Include="Penguin.Cms.Entities" Version="5.4.0" />
   </ItemGroup>
 </Project>
